@@ -1,0 +1,36 @@
+version: '3.8'  # Версия формата docker-compose
+
+services:
+  postgres:  # Определяем сервис (контейнер) для PostgreSQL
+    image: postgres:latest  # Используем готовый образ PostgreSQL
+    container_name: postgres-db
+    restart: always  # Перезапускается при падении
+    environment:  # Переменные окружения
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1112
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"  # Открываем порт
+    networks:
+      - app-network  # Добавляем в сеть
+
+  auth-service:  # Определяем сервис для вашего приложения
+    build: .  # Собираем контейнер из Dockerfile
+    container_name: my-auth-service
+    restart: always
+    depends_on:
+      - postgres  # Ждем запуска PostgreSQL перед стартом сервиса
+    environment:
+      DATABASE_HOST: postgres
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: 1112
+      DATABASE_NAME: postgres
+      DATABASE_PORT: 5432
+    ports:
+      - "8080:8080"  # Открываем порт
+    networks:
+      - app-network  # Добавляем в сеть
+
+networks:
+  app-network:  # Создаем сеть
+    driver: bridge
