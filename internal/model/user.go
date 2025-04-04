@@ -2,7 +2,7 @@ package model
 
 import "time"
 
-type User struct {
+type Person struct {
 	Id        int64     `gorm:"primary key; serial" json:"id"`
 	Name      string    `gorm:"type: text;not null" json:"name"`
 	Email     string    `gorm:"type: text;not null;uniq" json:"email"`
@@ -12,4 +12,4 @@ type User struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-func (User) TableName() string { return "person" }
+func (Person) TableName() string { return "persons" }

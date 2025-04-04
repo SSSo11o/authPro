@@ -2,7 +2,7 @@ version: '3.8'  # Версия формата docker-compose
 
 services:
   postgres:  # Определяем сервис (контейнер) для PostgreSQL
-    image: postgres:latest  # Используем готовый образ PostgreSQL
+    image: postgres  # Используем готовый образ PostgreSQL
     container_name: postgres-db
     restart: always  # Перезапускается при падении
     environment:  # Переменные окружения
@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: 1112
       POSTGRES_DB: postgres
     ports:
-      - "5432:5432"  # Открываем порт
+      - "5431:5432"  # Открываем порт
     networks:
       - app-network  # Добавляем в сеть
 

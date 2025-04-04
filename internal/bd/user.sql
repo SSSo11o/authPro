@@ -1,4 +1,4 @@
-create table person (
+create table persons (
     id serial primary key ,
     name text not null ,
     email text unique not null ,
@@ -7,4 +7,8 @@ create table person (
     created_at timestamp default now(),
     updated_at timestamp default now()
 );
+
+
+
+
 

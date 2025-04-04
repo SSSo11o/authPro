@@ -11,7 +11,7 @@ import (
 )
 
 func CreateUser(c *gin.Context) {
-	var user model.User
+	var user model.Person
 
 	log.Println("Начало обработки запроса для создания")
 
@@ -40,4 +40,18 @@ func CreateUser(c *gin.Context) {
 
 	log.Printf("Успешно создан user: %+v", user)
 	c.JSON(http.StatusOK, user)
+}
+
+func GetUsers(c *gin.Context) {
+	var users []model.Person
+
+	result := config.DB.Find(&users)
+	if result.Error != nil {
+		log.Printf("Ошибка при получении пользователей: %v", result.Error)
+		c.JSON(http.StatusBadRequest, gin.H{"error": result.Error.Error()})
+		return
+	}
+
+	log.Printf("Успешно найдено users: %+v", users)
+	c.JSON(http.StatusOK, users)
 }

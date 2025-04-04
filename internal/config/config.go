@@ -1,6 +1,7 @@
 package config
 
 import (
+	"auth/internal/model"
 	"fmt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -26,6 +27,10 @@ func ConnectDB() {
 		DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 		if err == nil {
 			log.Println("База данных успешно подключена")
+			if err := DB.AutoMigrate(&model.Person{}); err != nil {
+				log.Fatal("Ошибка при миграции базы данных: ", err)
+			}
+			log.Println("Миграция базы данных успешно выполнена")
 			return
 		}
 		log.Printf("Ошибка подключения к базе данных: %v, попытка %d\n", err, i+1)
